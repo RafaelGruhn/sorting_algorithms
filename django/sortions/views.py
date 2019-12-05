@@ -6,58 +6,55 @@ from django.views.generic.base import TemplateView
 
 def index(request):
     return redirect('home')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class HomeView(TemplateView):
     template_name = 'index.html'
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     aleatorio = []
     decrescente = []
     ordenados = []
 
-    with open(os.path.join(BASE_DIR, 'sortions/numeros_aleatorios.txt'), 'r') as f:
-        file_list = f.readlines()
-        for i in file_list:
-            aleatorio.append(int(i))
+    def __init__(self):
+        with open(os.path.join(BASE_DIR, 'sortions/numeros_aleatorios.txt'), 'r') as f:
+            file_list = f.readlines()
+            for i in file_list:
+                self.aleatorio.append(int(i))
 
-    with open(os.path.join(BASE_DIR, 'sortions/numeros_ordem_decrescente.txt'), 'r') as f:
-        file_list = f.readlines()
-        for i in file_list:
-            aleatorio.append(int(i))
+        with open(os.path.join(BASE_DIR, 'sortions/numeros_ordem_decrescente.txt'), 'r') as f:
+            file_list = f.readlines()
+            for i in file_list:
+                self.decrescente.append(int(i))
 
-    with open(os.path.join(BASE_DIR, 'sortions/numeros_ordenados.txt'), 'r') as f:
-        file_list = f.readlines()
-        for i in file_list:
-            aleatorio.append(int(i))
+        with open(os.path.join(BASE_DIR, 'sortions/numeros_ordenados.txt'), 'r') as f:
+            file_list = f.readlines()
+            for i in file_list:
+                self.ordenados.append(int(i))
+
 
     def post(self, request):
         algoritmo1 = request.POST.get('algoritmo1')
         if (algoritmo1 == "selection_sort"):
             disposicao = request.POST.get('disposicao_dados')
-            nos = request.POST.get('nos')
-            lista =
-            result = self.selection_sort(disposicao, nos)
-        return result
+            nos = int(request.POST.get('nos'))
+            lista = self.return_list_disposition(disposicao)
+            result = self.selection_sort(lista, nos)
+            print(result)
 
-    def return_list_disposition(self, request, disposicao):
-        if("")
+    def return_list_disposition(self, disposicao):
+        if(disposicao == "option1"):
+            return self.ordenados
+        elif(disposicao == "option2"):
+            return self.decrescente
+        return self.aleatorio
 
-    def selection_sort(self, disposicao, nos):
-        for i in range(len()): 
-            # Find the minimum element in remaining  
-            # unsorted array 
-            min_idx = i 
-            for j in range(i+1, nos): 
-                if disposicao[min_idx] > A[j]: 
-                    min_idx = j 
-                    
-            # Swap the found minimum element with  
-            # the first element         
-            A[i], A[min_idx] = A[min_idx], A[i] 
-        
-        # Driver code to test above 
-        print ("Sorted array") 
-        for i in range(len(A)): 
-            print("%d" %A[i]),  
+    def selection_sort(self, lista, nos):
+        del lista[nos:]
+        for i in range(0, len(lista)): 
+            d=lista.index(min(lista[i:]))
+            c=lista[i]
+            lista[i]=min(lista[i:])
+            lista[d]=c
+        return lista
 
     def insertion_sort(self, request):
         pass
