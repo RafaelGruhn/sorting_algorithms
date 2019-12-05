@@ -1,0 +1,89 @@
+{% load static %}
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <title>Algorítmos de ordenação</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'css/bootstrap-grid.min.css'%}">
+    
+    <script src="{%static 'js/jquery.min.js'%}"></script>
+    <script src="{%static 'js/layout.js'%}"></script>
+  </head>
+  <body>
+    <div class="container" id="conteudo">
+      <!--Conteudo da pagina -->
+        <div class="row pt-5">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-7">
+            <form role="form">
+              <div class="form-group">
+                <label for="algoritmo1">Algoritmo 1</label>
+                <select class="form-control" id="algoritmo1" name="algoritmo1">
+                  <option value="selection_sort">Selection-Sort</option>
+                  <option value="insertion_sort">Insertion-Sort</option>
+                  <option value="bubble_sort">Bubble-Sort</option>
+                  <option value="shell_sort">Shell-Sort</option>
+                  <option value="quick_sort">Quick-Sort</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="algoritmo2">Algoritmo 2</label>
+                <select class="form-control" id="algoritmo2" name="algoritmo2">
+                  <option value="selection_sort">Selection-Sort</option>
+                  <option value="insertion_sort">Insertion-Sort</option>
+                  <option value="bubble_sort">Bubble-Sort</option>
+                  <option value="shell_sort">Shell-Sort</option>
+                  <option value="quick_sort">Quick-Sort</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="nos">Quantidade de Nós</label>
+                <select class="form-control" id="nos" name="nos">
+                  <option value="1000">1000</option>
+                  <option value="10000">10000</option>
+                  <option value="100000">100000</option>
+                  <option value="1000000">1000000</option>
+                  <option value="10000000">10000000</option>
+                </select>
+              </div>
+              <div class="form-check">
+                <div>
+                  <input class="form-check-input" type="radio" name="disposicao_dados" id="exampleRadios1" value="option1" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Ordenados - ordem crescente
+                  </label>
+                </div>
+                <div>
+                  <input class="form-check-input" type="radio" name="disposicao_dados" id="exampleRadios2" value="option2">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Ordenados - ordem decrescente
+                  </label>
+                </div>
+                <div>
+                  <input class="form-check-input" type="radio" name="disposicao_dados" id="exampleRadios3" value="option2">
+                  <label class="form-check-label" for="exampleRadios3">
+                    Ordem aleatória
+                  </label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Executar
+              </button>
+            </form>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="Resultado">Resultado</label>
+              <textarea class="form-control" id="Resultado" rows="3"></textarea>
+          </div>
+          </div>
+          <div class="col-md-1">
+          </div>
+        </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script> 
+</html>
