@@ -76,16 +76,20 @@
           <div class="col-md-3">
             Número de nós: {{ nos }}
             <div class="form-group">
-              <label for="Resultado2">Resultado1 - {{ algoritmo1 }}</label>
-              <textarea class="form-control" id="Resultado1" rows="3">
-                {{ resultado1 }}
+              <label for="Resultado2"><b>Resultado1 - {{ algoritmo1 }}</b></label>
+              <textarea class="form-control text-left" id="Resultado1" rows="3">
+                Tempo: {{ resultado1 }}
               </textarea>
+              Movimentos: {{ movimentos1 }}<br>
+              Comparações: {{ comp1 }}
             </div>
               <div class="form-group">
-              <label for="Resultado2">Resultado2 - {{ algoritmo2 }}</label>
+              <label for="Resultado2"><b>Resultado2 - {{ algoritmo2 }}</b></label>
               <textarea class="form-control" id="Resultado2" rows="3">
-                {{ resultado2 }}
+                Tempo: {{ resultado2 }}
               </textarea>
+              Movimentos: {{ movimentos2 }}<br>
+              Comparações: {{ comp2 }}
             </div>
           </div>
           <div class="col-md-1">

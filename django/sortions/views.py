@@ -16,6 +16,8 @@ class HomeView(TemplateView):
     aleatorio = []
     decrescente = []
     ordenados = []
+    cont = 0
+    comp = 0
 
     def __init__(self):
         with open(os.path.join(BASE_DIR, 'sortions/numeros_aleatorios.txt'), 'r') as f:
@@ -43,24 +45,40 @@ class HomeView(TemplateView):
             nos = int(request.POST.get('nos'))
             del lista[nos:]
             context['nos'] = nos
+            mov = 0
 
-            start_time = time.time()
             if (context.get('algoritmo' + str(i)) == "selection_sort"):
-                lista = self.selection_sort(lista)
+                start_time = time.time()
+                lista_ordenada, mov, comp = self.selection_sort(lista)
+                result = (time.time() - start_time)
 
             elif (context.get('algoritmo' + str(i)) == "insertion_sort"):
-                lista = self.insertion_sort(lista)
+                start_time = time.time()
+                lista_ordenada, mov, comp = self.insertion_sort(lista)
+                result = (time.time() - start_time)
 
             elif (context.get('algoritmo' + str(i)) == "bubble_sort"):
-                lista = self.bubble_sort(lista)
+                start_time = time.time()                
+                lista_ordenada, mov, comp = self.bubble_sort(lista)
+                result = (time.time() - start_time)
 
             elif (context.get('algoritmo' + str(i)) == "shell_sort"):
-                lista = self.shell_sort(lista)
-            else:
-                lista = self.quick_sort(lista)
-            result = (time.time() - start_time)
+                start_time = time.time()                
+                lista_ordenada, mov, comp = self.shell_sort(lista)
+                result = (time.time() - start_time)
 
+            else:
+                start_time = time.time()
+                self.cont = 0
+                self.comp = 0
+                lista_ordenada = self.quick_sort(lista)
+                mov = self.cont
+                comp = self.comp
+                result = (time.time() - start_time)
+            
             context['resultado' + str(i)] = result
+            context['movimentos' + str(i)] = mov
+            context['comp' + str(i)] = comp
         return render(request, self.template_name, context)
 
     def return_list_disposition(self, disposicao):
@@ -71,46 +89,72 @@ class HomeView(TemplateView):
         return self.aleatorio
 
     def selection_sort(self, lista):
+        mov = 0
+        comp = 0
         for i in range(0, len(lista)): 
             d=lista.index(min(lista[i:]))
+            comp += 1
             c=lista[i]
             lista[i]=min(lista[i:])
+            comp += 1
+            mov+=1
             lista[d]=c
-        return lista
+            mov+=1
+        return lista, mov, comp
 
     def insertion_sort(self, lista):
+        mov = 0
+        comp = 0
         for i in range(1, len(lista)):
             key = lista[i]
+            comp += 1
             j = i-1
             while j >= 0 and key < lista[j]:
-                    lista[j + 1] = lista[j]
-                    j -= 1
+                comp += 1
+                lista[j + 1] = lista[j]
+                mov += 1
+                j -= 1
             lista[j + 1] = key
-        return lista
+            mov+=1
+        return lista, mov, comp
 
     def bubble_sort(self, lista):
+        mov = 0
+        comp = 0
         for passnum in range(len(lista)-1,0,-1):
+            mov = mov + 1
             for i in range(passnum):
+                comp += 1
+                mov = mov + 1
                 if lista[i]>lista[i+1]:
+                    comp += 1
                     temp = lista[i]
                     lista[i] = lista[i+1]
                     lista[i+1] = temp
-        return lista
+        return lista, mov, comp
 
     def shell_sort(self, lista):
+        mov = 0
+        comp = 0
         gap = lista.__len__() // 2
         while gap > 0:
             for i in range(gap, lista.__len__()):
+                comp += 1
                 temp = lista[i]
                 j = i
                 while j >= gap and lista[j - gap] > temp:
+                    comp += 1
                     lista[j] = lista[j - gap]
+                    mov += 1
                     j -= gap
                 lista[j] = temp
+                mov += 1
             gap //= 2
-        return lista
+        return lista, mov, comp
 
     def quick_sort(self, lista):
+        self.cont += 2
+        self.comp += 1
         if len(lista) <= 1:
             return lista
         else:
