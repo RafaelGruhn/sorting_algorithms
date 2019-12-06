@@ -1,7 +1,10 @@
 import os
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
+import time
+import sys
+sys.setrecursionlimit(1000000)
 
 
 def index(request):
@@ -32,13 +35,33 @@ class HomeView(TemplateView):
 
 
     def post(self, request):
-        algoritmo1 = request.POST.get('algoritmo1')
-        if (algoritmo1 == "selection_sort"):
+        context = {}
+        for i in range(1, 3):
+            context['algoritmo' + str(i)] = request.POST.get('algoritmo' + str(i))
             disposicao = request.POST.get('disposicao_dados')
-            nos = int(request.POST.get('nos'))
             lista = self.return_list_disposition(disposicao)
-            result = self.selection_sort(lista, nos)
-            print(result)
+            nos = int(request.POST.get('nos'))
+            del lista[nos:]
+            context['nos'] = nos
+
+            start_time = time.time()
+            if (context.get('algoritmo' + str(i)) == "selection_sort"):
+                lista = self.selection_sort(lista)
+
+            elif (context.get('algoritmo' + str(i)) == "insertion_sort"):
+                lista = self.insertion_sort(lista)
+
+            elif (context.get('algoritmo' + str(i)) == "bubble_sort"):
+                lista = self.bubble_sort(lista)
+
+            elif (context.get('algoritmo' + str(i)) == "shell_sort"):
+                lista = self.shell_sort(lista)
+            else:
+                lista = self.quick_sort(lista)
+            result = (time.time() - start_time)
+
+            context['resultado' + str(i)] = result
+        return render(request, self.template_name, context)
 
     def return_list_disposition(self, disposicao):
         if(disposicao == "option1"):
@@ -47,8 +70,7 @@ class HomeView(TemplateView):
             return self.decrescente
         return self.aleatorio
 
-    def selection_sort(self, lista, nos):
-        del lista[nos:]
+    def selection_sort(self, lista):
         for i in range(0, len(lista)): 
             d=lista.index(min(lista[i:]))
             c=lista[i]
@@ -56,14 +78,42 @@ class HomeView(TemplateView):
             lista[d]=c
         return lista
 
-    def insertion_sort(self, request):
-        pass
+    def insertion_sort(self, lista):
+        for i in range(1, len(lista)):
+            key = lista[i]
+            j = i-1
+            while j >= 0 and key < lista[j]:
+                    lista[j + 1] = lista[j]
+                    j -= 1
+            lista[j + 1] = key
+        return lista
 
-    def bubble_sort(self, request):
-        pass
+    def bubble_sort(self, lista):
+        for passnum in range(len(lista)-1,0,-1):
+            for i in range(passnum):
+                if lista[i]>lista[i+1]:
+                    temp = lista[i]
+                    lista[i] = lista[i+1]
+                    lista[i+1] = temp
+        return lista
 
-    def shell_sort(self, request):
-        pass
+    def shell_sort(self, lista):
+        gap = lista.__len__() // 2
+        while gap > 0:
+            for i in range(gap, lista.__len__()):
+                temp = lista[i]
+                j = i
+                while j >= gap and lista[j - gap] > temp:
+                    lista[j] = lista[j - gap]
+                    j -= gap
+                lista[j] = temp
+            gap //= 2
+        return lista
 
-    def quick_sort(self, request):
-        pass
+    def quick_sort(self, lista):
+        if len(lista) <= 1:
+            return lista
+        else:
+            return self.quick_sort([x for x in lista[1:] if x < lista[0]]) + \
+                [lista[0]] + \
+                self.quick_sort([x for x in lista[1:] if x >= lista[0]])

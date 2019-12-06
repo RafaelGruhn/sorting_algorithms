@@ -74,10 +74,19 @@
             </form>
           </div>
           <div class="col-md-3">
+            Número de nós: {{ nos }}
             <div class="form-group">
-              <label for="Resultado">Resultado</label>
-              <textarea class="form-control" id="Resultado" rows="3"></textarea>
-          </div>
+              <label for="Resultado2">Resultado1 - {{ algoritmo1 }}</label>
+              <textarea class="form-control" id="Resultado1" rows="3">
+                {{ resultado1 }}
+              </textarea>
+            </div>
+              <div class="form-group">
+              <label for="Resultado2">Resultado2 - {{ algoritmo2 }}</label>
+              <textarea class="form-control" id="Resultado2" rows="3">
+                {{ resultado2 }}
+              </textarea>
+            </div>
           </div>
           <div class="col-md-1">
           </div>
